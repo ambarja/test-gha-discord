@@ -1,7 +1,7 @@
 name: Generar reporte y notificar a Discord
 on:
   schedule:
-    - cron: '27 2 * * *'  # 21:27 hora Perú
+    - cron: '38 21 * * *'  # 21:38 hora Perú
 
 jobs:
   build-and-notify:
