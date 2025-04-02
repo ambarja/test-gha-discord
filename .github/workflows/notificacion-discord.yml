@@ -1,4 +1,4 @@
-name: Notificar a Discord con imagen
+name: Generar reporte y notificar a Discord
 
 on:
   push:
@@ -6,23 +6,34 @@ on:
       - main
 
 jobs:
-  notify:
+  build-and-notify:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Enviar mensaje con imagen a Discord
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Renderizar reporte
         run: |
+          quarto render report.qmd
+
+      - name: Enviar mensaje a Discord con GIF
+        run: |
+          FECHA=$(date +'%d/%m/%Y')
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{
-            "username": "GitHub Actions",
-            "embeds": [{
-              "title": "🚀 Push detectado en GitHub",
-              "description": "Se hizo push al repositorio con éxito.",
-              "color": 5814783,
-              "image": {
-                "url": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWhhbXRlOWFrMG05ZzkyMDY2ZjZscmhnNG5iOHdsdmE2NXk4bGd5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t7sEnf5w7wJ1CEPyy7/giphy.gif"
+          -d "{
+            \"username\": \"GitHub Actions\",
+            \"embeds\": [{
+              \"title\": \"📊 Reporte actualizado\",
+              \"description\": \"El reporte fue renderizado exitosamente el $FECHA.\",
+              \"color\": 3066993,
+              \"image\": {
+                \"url\": \"https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWhhbXRlOWFrMG05ZzkyMDY2ZjZscmhnNG5iOHdsdmE2NXk4bGd5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t7sEnf5w7wJ1CEPyy7/giphy.gif\"
               }
             }]
-          }' \
+          }" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
-
