@@ -1,4 +1,4 @@
-name: Notificar a Discord
+name: Notificar a Discord con imagen
 
 on:
   push:
@@ -9,9 +9,20 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Enviar notificación a Discord
+      - name: Enviar mensaje con imagen a Discord
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d '{"username": "GitHub Actions", "content": "🚀 Se hizo push al repositorio."}' \
+          -d '{
+            "username": "GitHub Actions",
+            "embeds": [{
+              "title": "🚀 Push detectado en GitHub",
+              "description": "Se hizo push al repositorio con éxito.",
+              "color": 5814783,
+              "image": {
+                "url": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWhhbXRlOWFrMG05ZzkyMDY2ZjZscmhnNG5iOHdsdmE2NXk4bGd5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t7sEnf5w7wJ1CEPyy7/giphy.gif"
+              }
+            }]
+          }' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
+
