@@ -53,5 +53,5 @@ jobs:
       - name: Commit y push del reporte renderizado
         run: |
           git add .
-          git commit -m "🚀 Reporte actualizado automáticamente"
+          git diff --cached --quiet || git commit -m "🚀 Reporte actualizado automáticamente"
           git push
