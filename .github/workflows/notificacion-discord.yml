@@ -3,8 +3,7 @@ name: Generar reporte y notificar a Discord
 on:
   push:
   schedule:
-    - cron: '0 1 * * *'  # 8:00 hora Perú
-  workflow_dispatch:
+    - cron: '20 1 * * *'  # 8:20 hora Perú
 
 jobs:
   build-and-notify:
