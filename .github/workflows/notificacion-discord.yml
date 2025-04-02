@@ -1,9 +1,8 @@
 name: Generar reporte y notificar a Discord
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '15 21 * * *'  # 21:15 UTC todos los días
 
 jobs:
   build-and-notify:
@@ -18,7 +17,7 @@ jobs:
 
       - name: Renderizar reporte
         run: |
-          quarto render report.qmd
+          quarto render reporte.qmd
 
       - name: Enviar mensaje a Discord con GIF
         run: |
