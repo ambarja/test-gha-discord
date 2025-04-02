@@ -1,8 +1,9 @@
 name: Generar reporte y notificar a Discord
-
 on:
   schedule:
-    - cron: '18 2 * * *'
+    - cron: '22 2 * * *'  # 21:22 hora Perú
+  workflow_dispatch:       # permite ejecutarlo manualmente
+
 
 jobs:
   build-and-notify:
